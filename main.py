@@ -5,6 +5,7 @@ import pygame
 pygame.init()
 
 clock = pygame.time.Clock()
+x = pygame.image.load("towerone.png")
 
 # Create a Pygame window
 window_size = (800, 600)
@@ -20,8 +21,9 @@ welcome_font = pygame.font.SysFont("Arial",30)
 button_surface = pygame.Surface((150, 50))
 text_surface = my_font.render('Start', False, (255, 255, 255))
 welcome_surface = my_font.render('Welcome To Tower Defense', False, (255, 255, 255))
-# Create a pygame.Rect object that represents the button's boundaries
-button_rect = pygame.Rect(325, 125, 200, 50)  # Adjust the position as needed
+
+button_surface_size = button_surface.get_size()
+button_rect = pygame.Rect(350, 300, button_surface_size[0], button_surface_size[1])
 rgb = (155, 255, 155)
 show_button = True
 show_start = True
@@ -33,7 +35,6 @@ while True:
     # Fill the display with color
     screen.fill(rgb)
 
-    # Get events from the event queue
     for event in pygame.event.get():
         # Check for the quit event
         if event.type == pygame.QUIT:
@@ -46,7 +47,6 @@ while True:
             if button_rect.collidepoint(event.pos):
                 button_clicked = True
                 if button_clicked == True:
-                    print("happy")
                     rgb = (155,155,155)
                     show_button = False
 
@@ -54,10 +54,11 @@ while True:
 
     # Draw the button on the screen
     if show_button:
-        print("plswork")
-        screen.blit(button_surface, (500, 100))
-        screen.blit(text_surface, (335, 100))
-        screen.blit(welcome_surface, (100,100))
+        screen.blit(button_surface, (340, 300))
+        screen.blit(text_surface, (380, 300))
+        screen.blit(welcome_surface, (250,200))
+        screen.blit(x,(200,100))
+
 
     # Update the game state
     pygame.display.update()
