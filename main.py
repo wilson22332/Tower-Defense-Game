@@ -1,12 +1,13 @@
 import pygame
+from background import Background
 
 
 # Initialize Pygame
 pygame.init()
-
+background = pygame.image.load('background.png')
 clock = pygame.time.Clock()
 x = pygame.image.load("towerone.png")
-
+b=Background(50,30)
 # Create a Pygame window
 window_size = (800, 600)
 screen = pygame.display.set_mode(window_size)
@@ -27,7 +28,7 @@ button_rect = pygame.Rect(350, 300, button_surface_size[0], button_surface_size[
 rgb = (155, 255, 155)
 show_button = True
 show_start = True
-
+showing_background = False
 # Start the main loop
 while True:
     # Set the frame rate
@@ -46,9 +47,11 @@ while True:
             # Call the on_mouse_button_down() function
             if button_rect.collidepoint(event.pos):
                 button_clicked = True
-                if button_clicked == True:
-                    rgb = (155,155,155)
+                if button_clicked and showing_background == False:
+                    showing_background = True
                     show_button = False
+
+
 
 
 
@@ -57,7 +60,8 @@ while True:
         screen.blit(button_surface, (340, 300))
         screen.blit(text_surface, (380, 300))
         screen.blit(welcome_surface, (250,200))
-        screen.blit(x,(200,100))
+    if showing_background:
+        screen.blit(background, (500, 300))
 
 
     # Update the game state
