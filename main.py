@@ -1,12 +1,18 @@
 import pygame
 from background import Background
+from arrow import Arrow
 
 
 # Initialize Pygame
 pygame.init()
 background = pygame.image.load('background.png')
+default_background_size = (1000,500)
+background = pygame.transform.scale(background,default_background_size)
+default_background_position =(10,50)
 clock = pygame.time.Clock()
 x = pygame.image.load("towerone.png")
+inventory = pygame.image.load('inventorybox.png')
+arrow = pygame.image.load('arrow.png')
 b=Background(50,30)
 # Create a Pygame window
 window_size = (800, 600)
@@ -22,7 +28,9 @@ welcome_font = pygame.font.SysFont("Arial",30)
 button_surface = pygame.Surface((150, 50))
 text_surface = my_font.render('Start', False, (255, 255, 255))
 welcome_surface = my_font.render('Welcome To Tower Defense', False, (255, 255, 255))
-
+arrow_surface = pygame.Surface((100,200))
+arrow_surface_size = arrow_surface.get_size()
+arrow_triangle = pygame.Rect(350, 300, arrow_surface_size[0], arrow_surface_size[1])
 button_surface_size = button_surface.get_size()
 button_rect = pygame.Rect(350, 300, button_surface_size[0], button_surface_size[1])
 rgb = (155, 255, 155)
@@ -50,6 +58,10 @@ while True:
                 if button_clicked and showing_background == False:
                     showing_background = True
                     show_button = False
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button ==1:
+            if arrow_triangle.collidepoint(event.pos):
+                screen.blit(inventory, (100, 100))
+
 
 
 
@@ -61,7 +73,10 @@ while True:
         screen.blit(text_surface, (380, 300))
         screen.blit(welcome_surface, (250,200))
     if showing_background:
-        screen.blit(background, (500, 300))
+        screen.blit(background, default_background_position)
+
+        screen.blit(arrow,(200,100))
+
 
 
     # Update the game state
