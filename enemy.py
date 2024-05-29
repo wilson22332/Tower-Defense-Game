@@ -1,13 +1,14 @@
-import pygame as pg
+import pygame
+
+
 class Enemy:
-    def __init__(self, pos, image):
-      pg.sprite.Sprite.__init__(self)
-      self.image = image
-      self.rect = self.image.get_rect()
-      self.rect.center = pos
 
-    def update(self):
-        self.move()
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.image = pygame.image.load("enemy.png")
+        self.image_size = self.image.get_size()
+        self.delta = .1
 
-    def move(self):
-        self.rect.x += 1
+
+

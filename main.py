@@ -22,9 +22,10 @@ time = clock.get_time()
 
 #initlizaing enemies
 enemy_image = pygame.image.load('enemy.png')
-enemy_group = pg.sprite.Group()
-enemy = Enemy((200,300, enemy_image))
-enemy_group.add(Enemy)
+enemy = Enemy((200,300), enemy_image)
+enemy_image = pygame.image.load('enemy.png')
+image = pygame.transform.scale(enemy_image, (100,100))
+
 # Create a font object
 font = pygame.font.Font(None, 24)
 pygame.font.init()
@@ -41,14 +42,13 @@ rgb = (155, 255, 155)
 show_button = True
 show_start = True
 showing_background = False
+
 # Start the main loop
 while True:
     # Set the frame rate
     clock.tick(60)
     # Fill the display with color
     screen.fill(rgb)
-    enemy_group.update()
-    enemy_group.draw(screen)
     for event in pygame.event.get():
         # Check for the quit event
         if event.type == pygame.QUIT:
@@ -75,9 +75,7 @@ while True:
         screen.blit(welcome_surface, (250,200))
     if showing_background:
         screen.blit(background, default_background_position)
+        screen.blit(image, (200,300))
 
 
-
-
-    # Update the game state
-    pygame.display.update()
+    pg.display.flip()
