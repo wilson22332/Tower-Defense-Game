@@ -1,29 +1,39 @@
-import pygame as pg
+
 import pygame
 from background import Background
-from enemy import Enemy
+from user import Enemy
+import math
 
 # Initialize Pygame
 pygame.init()
+# Create a Pygame window
+SCREEN_WIDTH = 1500
+SCREEN_HEIGHT = 600
 # Background of the actual game
 background = pygame.image.load('background.png')
 default_background_size = (1000,500)
 background = pygame.transform.scale(background,default_background_size)
 default_background_position =(10,50)
+background_width = background.get_width()
+background_rect = background.get_rect()
+#Tiles
+tiles = math.ceil(SCREEN_WIDTH/background_width)+1
+#Scrolling background
+scroll = 0
+
 #Frames
 clock = pygame.time.Clock()
 #Where the background is going to be
 b=Background(50,30)
-# Create a Pygame window
-window_size = (800, 600)
-screen = pygame.display.set_mode(window_size)
-pygame.display.set_caption('Tower Defense')
+
+screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
+pygame.display.set_caption('Geometry Dash')
 time = clock.get_time()
 
 #initlizaing enemies
-enemy_image = pygame.image.load('enemy.png')
+enemy_image = pygame.image.load('user.png')
 enemy = Enemy((200,300), enemy_image)
-enemy_image = pygame.image.load('enemy.png')
+enemy_image = pygame.image.load('user.png')
 image = pygame.transform.scale(enemy_image, (100,100))
 
 # Create a font object
@@ -42,7 +52,7 @@ rgb = (155, 255, 155)
 show_button = True
 show_start = True
 showing_background = False
-
+run = True
 # Start the main loop
 while True:
     # Set the frame rate
@@ -53,6 +63,7 @@ while True:
         # Check for the quit event
         if event.type == pygame.QUIT:
             # Quit the game
+            run = False
             pygame.quit()
 
         # Check for the mouse button down event
@@ -74,8 +85,15 @@ while True:
         screen.blit(text_surface, (380, 300))
         screen.blit(welcome_surface, (250,200))
     if showing_background:
+
+        for i in range(0,tiles):
+            screen.blit(background,(i * background_width - scroll,0))
+            pygame.draw.rect(screen,(255,0,0), background_rect)
+        scroll -= 5
+        if abs(scroll)> background_width:
+            scroll =0
         screen.blit(background, default_background_position)
         screen.blit(image, (200,300))
 
 
-    pg.display.flip()
+    pygame.display.update()
