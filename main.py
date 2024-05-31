@@ -1,14 +1,14 @@
 
 import pygame
 from background import Background
-from user import Enemy
+from cube import Cube
 import math
 
 # Initialize Pygame
 pygame.init()
 # Create a Pygame window
 SCREEN_WIDTH = 1500
-SCREEN_HEIGHT = 600
+SCREEN_HEIGHT = 500
 # Background of the actual game
 background = pygame.image.load('background.png')
 default_background_size = (1000,500)
@@ -30,11 +30,11 @@ screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption('Geometry Dash')
 time = clock.get_time()
 
-#initlizaing enemies
-enemy_image = pygame.image.load('user.png')
-enemy = Enemy((200,300), enemy_image)
-enemy_image = pygame.image.load('user.png')
-image = pygame.transform.scale(enemy_image, (100,100))
+#initlizaing cube
+cube_image = pygame.image.load('cube.png')
+enemy = Cube((200,300), cube_image)
+cube_image = pygame.image.load('cube.png')
+image = pygame.transform.scale(cube_image, (100,100))
 
 # Create a font object
 font = pygame.font.Font(None, 24)
@@ -45,10 +45,10 @@ welcome_font = pygame.font.SysFont("Arial",30)
 # Create a surface for the button
 button_surface = pygame.Surface((150, 50))
 text_surface = my_font.render('Start', False, (255, 255, 255))
-welcome_surface = my_font.render('Welcome To Tower Defense', False, (255, 255, 255))
+welcome_surface = my_font.render('Welcome to Geometry Run', False, (255, 255, 255))
 button_surface_size = button_surface.get_size()
-button_rect = pygame.Rect(350, 300, button_surface_size[0], button_surface_size[1])
-rgb = (155, 255, 155)
+button_rect = pygame.Rect(640, 300, button_surface_size[0], button_surface_size[1])
+rgb = (173,216,230)
 show_button = True
 show_start = True
 showing_background = False
@@ -75,25 +75,23 @@ while True:
                     showing_background = True
                     show_button = False
 
-
-
-
-
     # Draw the button on the screen
     if show_button:
-        screen.blit(button_surface, (340, 300))
-        screen.blit(text_surface, (380, 300))
-        screen.blit(welcome_surface, (250,200))
+        screen.blit(button_surface, (640, 300))
+        screen.blit(text_surface, (680, 300))
+        screen.blit(welcome_surface, (550,200))
     if showing_background:
+        screen.blit(image,(300,300))
+        for i in range(0, tiles):
+            screen.blit(background, (i * background_width + scroll, 0))
+            background_rect.x = i * background_width + scroll
 
-        for i in range(0,tiles):
-            screen.blit(background,(i * background_width - scroll,0))
-            pygame.draw.rect(screen,(255,0,0), background_rect)
+        # scroll background
         scroll -= 5
-        if abs(scroll)> background_width:
-            scroll =0
-        screen.blit(background, default_background_position)
-        screen.blit(image, (200,300))
+
+        # reset scroll
+        if abs(scroll) > background_width:
+            scroll = 0
 
 
     pygame.display.update()
