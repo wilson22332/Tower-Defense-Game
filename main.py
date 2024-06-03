@@ -26,15 +26,13 @@ clock = pygame.time.Clock()
 #Where the background is going to be
 b=Background(50,30)
 
+#cube
+rect = pygame.Rect(135, 220, 30, 30)
+vel = 5
+
 screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption('Geometry Dash')
 time = clock.get_time()
-
-#initlizaing cube
-cube_image = pygame.image.load('cube.png')
-enemy = Cube((200,300), cube_image)
-cube_image = pygame.image.load('cube.png')
-image = pygame.transform.scale(cube_image, (100,100))
 
 # Create a font object
 font = pygame.font.Font(None, 24)
@@ -74,17 +72,24 @@ while True:
                 if button_clicked and showing_background == False:
                     showing_background = True
                     show_button = False
-
     # Draw the button on the screen
     if show_button:
         screen.blit(button_surface, (640, 300))
         screen.blit(text_surface, (680, 300))
         screen.blit(welcome_surface, (550,200))
     if showing_background:
-        screen.blit(image,(300,300))
         for i in range(0, tiles):
             screen.blit(background, (i * background_width + scroll, 0))
             background_rect.x = i * background_width + scroll
+            keys = pygame.key.get_pressed()
+            rect.centerx = (rect.centerx + (keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]) * vel) % 300
+
+            if keys[pygame.K_SPACE]:
+                rect.y -= 1
+            elif rect.y < 220:
+                rect.y += 1
+            pygame.draw.circle(screen, (255, 0, 0), rect.center, 15)
+            pygame.display.flip()
 
         # scroll background
         scroll -= 5
