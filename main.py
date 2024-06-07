@@ -88,6 +88,7 @@ while True:
                 rect.y -= 1
             elif rect.y < 220:
                 rect.y += 1
+
             pygame.draw.circle(screen, (255, 0, 0), rect.center, 15)
             pygame.display.flip()
 
