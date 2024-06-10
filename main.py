@@ -1,7 +1,7 @@
 
 import pygame
 from background import Background
-from cube import Cube
+from platform import Platform
 import math
 
 # Initialize Pygame
@@ -21,6 +21,8 @@ tiles = math.ceil(SCREEN_WIDTH/background_width)+1
 #Scrolling background
 scroll = 0
 
+#platform
+platform = Platform(300,200)
 #Frames
 clock = pygame.time.Clock()
 #Where the background is going to be
@@ -78,7 +80,9 @@ while True:
         screen.blit(text_surface, (680, 300))
         screen.blit(welcome_surface, (550,200))
     if showing_background:
+
         for i in range(0, tiles):
+            screen.blit(platform.image, (platform.rect))
             screen.blit(background, (i * background_width + scroll, 0))
             background_rect.x = i * background_width + scroll
             keys = pygame.key.get_pressed()
@@ -90,7 +94,7 @@ while True:
                 rect.y += 1
 
             pygame.draw.circle(screen, (255, 0, 0), rect.center, 15)
-            pygame.display.flip()
+        pygame.display.flip()
 
         # scroll background
         scroll -= 5
@@ -98,6 +102,5 @@ while True:
         # reset scroll
         if abs(scroll) > background_width:
             scroll = 0
-
 
     pygame.display.update()
